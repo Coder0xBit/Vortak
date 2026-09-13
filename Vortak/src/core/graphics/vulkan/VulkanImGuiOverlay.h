@@ -16,7 +16,7 @@ namespace Vortak {
         void render() override;
 
     private:
-        VulkanDevice* mVulkanPlatform = nullptr;
+        VulkanDevice* mVulkanDevice = nullptr;
         Window* mWindow = nullptr;
 
         void init();

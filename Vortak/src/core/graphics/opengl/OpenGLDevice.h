@@ -1,6 +1,5 @@
 #pragma once
 #include "core/graphics/GraphicsDevice.h"
-#include "core/graphics/Shader.h"
 #include "core/graphics/ShaderType.h"
 
 namespace Vortak {

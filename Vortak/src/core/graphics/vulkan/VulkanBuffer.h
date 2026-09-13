@@ -9,7 +9,7 @@
 namespace Vortak {
     class VulkanBuffer {
     public:
-        VulkanBuffer(VulkanDevice* vulkanPlatform) : mVulkanPlatform(vulkanPlatform) {
+        VulkanBuffer(VulkanDevice* vulkanPlatform) : mVulkanDevice(vulkanPlatform) {
         }
 
         VulkanBuffer(const VulkanBuffer&) = delete;
@@ -33,7 +33,7 @@ namespace Vortak {
 
     private:
         vk::Buffer mBuffer = nullptr;
-        VulkanDevice* mVulkanPlatform = nullptr;
+        VulkanDevice* mVulkanDevice = nullptr;
         vk::DeviceMemory mMemory = nullptr;
         void* mMappedMemory = nullptr;
         uint32_t mElementCount = 0;

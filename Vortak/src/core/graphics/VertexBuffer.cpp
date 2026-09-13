@@ -1,6 +1,8 @@
 #pragma once
 #include "VertexBuffer.h"
 
+#include <utility>
+
 #include "core/graphics/vulkan/VulkanVertexBuffer.h"
 #include "core/graphics/opengl/OpenGLVertexBuffer.h"
 
@@ -43,7 +45,7 @@ namespace Vortak {
     }
 
     VertexBuffer::Builder& VertexBuffer::Builder::layout(VertexBufferLayout layout) noexcept {
-        mImpl->bufferLayout = layout;
+        mImpl->bufferLayout = std::move(layout);
         return *this;
     }
 

@@ -3,7 +3,7 @@
 
 namespace Vortak {
     VulkanTexture::VulkanTexture(Vortak::VulkanDevice* vulkanPlatform, const Vortak::Image* imageResource) {
-        mVulkanPlatform = vulkanPlatform;
+        mVulkanDevice = vulkanPlatform;
         mImageResource = imageResource;
         mDevice = vulkanPlatform->getLogicalDevice();
         mPhysicalDevice = vulkanPlatform->getPhysicalDevice();
@@ -51,7 +51,7 @@ namespace Vortak {
         int pixelCount = mImageResource->getPixelCount();
         int channel = mImageResource->channels;
 
-        mStagingBuffer = std::make_shared<VulkanBuffer>(mVulkanPlatform);
+        mStagingBuffer = std::make_shared<VulkanBuffer>(mVulkanDevice);
         mStagingBuffer->create(pixelCount, channel, vk::BufferUsageFlagBits::eTransferSrc);
         mStagingBuffer->allocate(mBufferProperties);
         mStagingBuffer->map();

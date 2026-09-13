@@ -4,7 +4,7 @@
 #include "core/scene/Entity.h"
 
 namespace Vortak {
-    VulkanUBOManager::VulkanUBOManager(VulkanDevice* vulkanPlatform, Scene* scene) : mVulkanPlatform(
+    VulkanUBOManager::VulkanUBOManager(VulkanDevice* vulkanPlatform, Scene* scene) : mVulkanDevice(
         vulkanPlatform) {
         mScene = scene;
         initializeBuffers();
@@ -29,7 +29,7 @@ namespace Vortak {
     }
 
     void VulkanUBOManager::addUniformBuffer(EntityId entityId, const TransformComponent& transformComponent) {
-        auto uniformBuffer = std::make_shared<VulkanBuffer>(mVulkanPlatform);
+        auto uniformBuffer = std::make_shared<VulkanBuffer>(mVulkanDevice);
         uniformBuffer->create(1, sizeof(UniformBuffer), vk::BufferUsageFlagBits::eUniformBuffer);
         uniformBuffer->allocate(mUniformBufferProperties);
         uniformBuffer->map();

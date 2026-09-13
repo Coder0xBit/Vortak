@@ -21,6 +21,6 @@ namespace Vortak {
         std::unique_ptr<VulkanBuffer> mBuffer;
         vk::MemoryPropertyFlags mBufferProperties =
         vk::MemoryPropertyFlagBits::eHostVisible | vk::MemoryPropertyFlagBits::eHostCoherent;
-        VulkanDevice* mVulkanPlatform;
+        VulkanDevice* mVulkanDevice;
     };
 }

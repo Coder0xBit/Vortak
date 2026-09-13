@@ -4,7 +4,7 @@
 namespace Vortak {
     OpenGLShader::OpenGLShader(GraphicsDevice* graphicsDevice, ShaderProgram* shaderProgram, ShaderType shaderType)
         : Shader(graphicsDevice, shaderProgram, shaderType) {
-        GLenum glShaderType = getGLShaderType(shaderType);
+        GLenum glShaderType = OpenGLUtils::getGLShaderType(shaderType);
         mShaderID = glCreateShader(glShaderType);
         const char* shaderSource = mShaderProgram->blob.data();
         glShaderSource(mShaderID, 1, &shaderSource, nullptr);
@@ -19,7 +19,7 @@ namespace Vortak {
 
         if (!success) {
             glGetShaderInfoLog(mShaderID, 512, nullptr, infoLog);
-            Vortak::Logger::Error("For {}", getGLShaderType(mShaderType));
+            Vortak::Logger::Error("For {}", OpenGLUtils::getGLShaderType(mShaderType));
             Vortak::Logger::Error("{}", infoLog);
             std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
         }

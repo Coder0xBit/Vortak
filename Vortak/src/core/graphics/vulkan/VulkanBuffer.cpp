@@ -3,7 +3,7 @@
 
 namespace Vortak {
     void VulkanBuffer::create(uint32_t elementCount, uint32_t elementSize, vk::BufferUsageFlagBits usage) {
-        vk::Device logicalDevice = mVulkanPlatform->getLogicalDevice();
+        vk::Device logicalDevice = mVulkanDevice->getLogicalDevice();
         mElementCount = elementCount;
         mBufferSize = elementSize * mElementCount;
 
@@ -16,8 +16,8 @@ namespace Vortak {
     }
 
     void VulkanBuffer::allocate(vk::MemoryPropertyFlags properties) {
-        vk::Device logicalDevice = mVulkanPlatform->getLogicalDevice();
-        vk::PhysicalDevice physicalDevice = mVulkanPlatform->getPhysicalDevice();
+        vk::Device logicalDevice = mVulkanDevice->getLogicalDevice();
+        vk::PhysicalDevice physicalDevice = mVulkanDevice->getPhysicalDevice();
 
         vk::MemoryRequirements memRequirements = logicalDevice.getBufferMemoryRequirements(mBuffer);
 
@@ -34,14 +34,14 @@ namespace Vortak {
     }
 
     void VulkanBuffer::map() {
-        vk::Device logicalDevice = mVulkanPlatform->getLogicalDevice();
+        vk::Device logicalDevice = mVulkanDevice->getLogicalDevice();
         if (!mMappedMemory) {
             mMappedMemory = logicalDevice.mapMemory(mMemory, 0, mBufferSize);
         }
     }
 
     void VulkanBuffer::unMap() {
-        vk::Device logicalDevice = mVulkanPlatform->getLogicalDevice();
+        vk::Device logicalDevice = mVulkanDevice->getLogicalDevice();
         logicalDevice.unmapMemory(mMemory);
         mMappedMemory = nullptr;
     }
@@ -52,7 +52,7 @@ namespace Vortak {
     }
 
     VulkanBuffer::~VulkanBuffer() {
-        vk::Device logicalDevice = mVulkanPlatform->getLogicalDevice();
+        vk::Device logicalDevice = mVulkanDevice->getLogicalDevice();
         if (isCurrentlyMapped()) {
             Vortak::Logger::Info("Buffer was previously mapped, internally unmapping");
             unMap();

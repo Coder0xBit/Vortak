@@ -4,7 +4,7 @@
 
 namespace Vortak {
     VulkanTextureManager::VulkanTextureManager(Vortak::VulkanDevice* vulkanPlatform, Scene* scene)
-        : mVulkanPlatform(vulkanPlatform), mScene(scene) {
+        : mVulkanDevice(vulkanPlatform), mScene(scene) {
         createCommandPool();
         initialize();
     }
@@ -24,7 +24,7 @@ namespace Vortak {
     }
 
     VulkanTextureManager::~VulkanTextureManager() {
-        mVulkanPlatform->destroyCommandPool(mCommandPool);
+        mVulkanDevice->destroyCommandPool(mCommandPool);
     }
 
     void VulkanTextureManager::addTexture(EntityId entityId, const MaterialComponent& materialComponent) {
@@ -35,7 +35,7 @@ namespace Vortak {
         }
 
         std::shared_ptr<VulkanTexture> vulkanTexture =
-                std::make_shared<VulkanTexture>(mVulkanPlatform, albedoTextureImage);
+                std::make_shared<VulkanTexture>(mVulkanDevice, albedoTextureImage);
 
         initializeTexture(vulkanTexture);
 
@@ -43,14 +43,14 @@ namespace Vortak {
     }
 
     void VulkanTextureManager::initializeTexture(std::shared_ptr<VulkanTexture> vulkanTexture) const {
-        vk::Queue graphicsQueue = mVulkanPlatform->getGraphicsQueue();
-        mVulkanPlatform->executeOneCommand(mCommandPool, graphicsQueue,
+        vk::Queue graphicsQueue = mVulkanDevice->getGraphicsQueue();
+        mVulkanDevice->executeOneCommand(mCommandPool, graphicsQueue,
                                             [&](vk::CommandBuffer commandBuffer) {
                                                 vulkanTexture->recordUploadCommand(commandBuffer);
                                             });
     }
 
     void VulkanTextureManager::createCommandPool() {
-        mCommandPool = mVulkanPlatform->createCommandPool(vk::CommandPoolCreateFlagBits::eTransient);
+        mCommandPool = mVulkanDevice->createCommandPool(vk::CommandPoolCreateFlagBits::eTransient);
     }
 }

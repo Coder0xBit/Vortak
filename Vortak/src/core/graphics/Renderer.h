@@ -9,6 +9,7 @@
 #include "core/graphics/GraphicsDevice.h"
 #include "core/graphics/BufferManager.h"
 #include "core/scene/Scene.h"
+#include "core/graphics/GeometryPass.h" // Added GeometryPass
 
 namespace Vortak {
     class Renderer {
@@ -71,6 +72,7 @@ namespace Vortak {
 
     private :
         Vortak::RenderQueue<Command> mRenderQueue;
+        std::unique_ptr<GeometryPass> mGeometryPass; // Store geometry pass internally
         GraphicsDevice* mGraphicsDevice = nullptr;
         std::unique_ptr<BufferManager> mBufferManager = nullptr;
         Window* mWindow = nullptr;

@@ -6,10 +6,10 @@
 
 namespace Vortak {
     VulkanImGuiOverlay::VulkanImGuiOverlay(const Builder& builder) {
-        mVulkanPlatform = dynamic_cast<VulkanDevice*>(builder->platform);
+        mVulkanDevice = dynamic_cast<VulkanDevice*>(builder->platform);
         mWindow = builder->window;
 
-        VORTAK_ASSERT(mVulkanPlatform != nullptr, "VulkanImGuiLayer :: VulkanPlatform is null");
+        VORTAK_ASSERT(mVulkanDevice != nullptr, "VulkanImGuiLayer :: VulkanPlatform is null");
         VORTAK_ASSERT(mWindow != nullptr, "VulkanImGuiLayer :: Window is null");
 
         init();
@@ -21,10 +21,10 @@ namespace Vortak {
         ImGui::StyleColorsDark();
 
         ImGui_ImplVulkan_InitInfo initInfo{};
-        initInfo.Instance = mVulkanPlatform->getVkInstance();
-        initInfo.PhysicalDevice = mVulkanPlatform->getPhysicalDevice();
-        initInfo.Device = mVulkanPlatform->getLogicalDevice();
-        initInfo.Queue = mVulkanPlatform->getGraphicsQueue();
+        initInfo.Instance = mVulkanDevice->getVkInstance();
+        initInfo.PhysicalDevice = mVulkanDevice->getPhysicalDevice();
+        initInfo.Device = mVulkanDevice->getLogicalDevice();
+        initInfo.Queue = mVulkanDevice->getGraphicsQueue();
         /**
          * Need to look into the handling this using the Render Target so probably this will be automatically managed by the Render Graph
          */
@@ -42,7 +42,7 @@ namespace Vortak {
     }
 
     VulkanImGuiOverlay::~VulkanImGuiOverlay() {
-        vk::Device device = mVulkanPlatform->getLogicalDevice();
+        vk::Device device = mVulkanDevice->getLogicalDevice();
         device.waitIdle();
         ImGui_ImplVulkan_Shutdown();
         ImGui_ImplGlfw_Shutdown();

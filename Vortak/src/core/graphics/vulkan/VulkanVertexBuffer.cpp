@@ -7,8 +7,8 @@ namespace Vortak {
         GraphicsDevice* graphicsDevice,
         VertexBufferLayout bufferLayout
     ) : VertexBuffer(std::move(bufferLayout)) {
-        mVulkanPlatform = static_cast<VulkanDevice*>(graphicsDevice);
-        mBuffer = std::make_unique<VulkanBuffer>(mVulkanPlatform);
+        mVulkanDevice = static_cast<VulkanDevice*>(graphicsDevice);
+        mBuffer = std::make_unique<VulkanBuffer>(mVulkanDevice);
     }
 
     VulkanVertexBuffer::~VulkanVertexBuffer() {

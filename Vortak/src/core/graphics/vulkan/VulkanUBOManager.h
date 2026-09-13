@@ -52,7 +52,7 @@ namespace Vortak {
         vk::MemoryPropertyFlags mUniformBufferProperties =
                 vk::MemoryPropertyFlagBits::eHostVisible | vk::MemoryPropertyFlagBits::eHostCoherent;
 
-        VulkanDevice* mVulkanPlatform;
+        VulkanDevice* mVulkanDevice;
         VulkanEntityData mUniformBuffers;
     };
 }

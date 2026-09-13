@@ -46,7 +46,7 @@ namespace Vortak {
         vk::Device mDevice;
         vk::PhysicalDevice mPhysicalDevice;
 
-        Vortak::VulkanDevice* mVulkanPlatform;
+        Vortak::VulkanDevice* mVulkanDevice;
 
         vk::Image mImage;
         vk::DeviceSize mImageSize = 0;

@@ -34,7 +34,7 @@ namespace Vortak {
 
 		vk::CommandPool mCommandPool;
 
-		Vortak::VulkanDevice* mVulkanPlatform = nullptr;
+		Vortak::VulkanDevice* mVulkanDevice = nullptr;
 		Scene* mScene = nullptr;
 		VulkanTextureContainer mTextures;
 	};

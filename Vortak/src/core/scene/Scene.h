@@ -45,6 +45,10 @@ namespace Vortak {
             mComponentAddedObservers[typeIndex].emplace_back(callbackFunction);
         }
 
+        // --- Added for Versioning ---
+        uint32_t getVersion() const { return mVersion; }
+        void markDirty() { mVersion++; }
+
     private:
         template <typename T>
         void notifyObservers(Entity& entity, T& component) {
@@ -60,6 +64,8 @@ namespace Vortak {
 
         using ObserverFunction = std::function<void(Entity&, void*)>;
         std::unordered_map<std::type_index, std::vector<ObserverFunction>> mComponentAddedObservers;
+
+        uint32_t mVersion = 1;
 
         friend class Entity;
     };

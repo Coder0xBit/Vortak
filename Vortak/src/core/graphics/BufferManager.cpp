@@ -33,7 +33,7 @@ namespace Vortak {
         meshBuffer.vertexBuffer = VertexBuffer::Builder()
                                  .graphicsDevice(mGraphicsDevice)
                                  .backend(mBackend)
-                                  // .layout(mesh.getVertexBufferLayout())
+                                 .layout(Vertex::getVertexBufferLayout())
                                  .build();
 
         const std::vector<Vortak::Vertex>& vertices = mesh.vertices;

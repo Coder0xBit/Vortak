@@ -41,19 +41,24 @@ namespace Vortak {
         mBackend = builder.mImpl->backend;
 
         mBufferManager = std::make_unique<BufferManager>(mGraphicsDevice, mBackend);
+        mGeometryPass = std::make_unique<GeometryPass>();
     }
 
     bool Renderer::beginFrame() { return true; }
 
 
     void Renderer::render(Vortak::Camera* camera, Vortak::Scene* scene) {
-        auto view = scene->getAllEntityWith<Vortak::MeshComponent>();
-        for (auto& handle : view) {
-            Entity e = Entity(handle, scene);
-            auto mesh = e.getComponent<Vortak::MeshComponent>();
+        mGeometryPass->build(mRenderQueue, scene, mGraphicsDevice);
 
-            for (auto& subMeshes : mesh.subMeshes) {
-                auto meshKey = MeshKey(mesh.modelHandle, subMeshes.meshIndex);
+        Command cmd;
+        while (mRenderQueue.tryPop(cmd)) {
+            auto mesh = cmd.getMesh();
+            auto pipeline = cmd.getPipeline();
+
+            if (!mesh) continue;
+
+            for (auto& subMeshes : mesh->subMeshes) {
+                auto meshKey = MeshKey(mesh->modelHandle, subMeshes.meshIndex);
                 auto meshBuffer = mBufferManager->getMesh(meshKey);
             }
         }

@@ -23,7 +23,6 @@ namespace Vortak {
         }
     };
 
-
     struct MeshBuffer {
         std::unique_ptr<VertexBuffer> vertexBuffer;
         std::unique_ptr<IndexBuffer> indexBuffer;
