@@ -7,7 +7,8 @@
 #include <set>
 #include <GLFW/glfw3.h>
 
-#include "VulkanShader.h"
+#include "core/graphics/vulkan/VulkanShader.h"
+#include "core/graphics/vulkan/VulkanProgram.h"
 
 namespace Vortak {
     VulkanDevice::VulkanDevice(const Builder& builder) {
@@ -170,6 +171,16 @@ namespace Vortak {
         auto shaderProgram = ResourceManager::get().load<ShaderProgram>(path.string());
         auto* shader = Memory::Allocate<VulkanShader>(this, shaderProgram, shaderType);
         return shader;
+    }
+
+    void VulkanDevice::bindPipeline(Vortak::PipelineDescription* pipelineDescription) {
+        if (pipelineDescription->program) {
+            pipelineDescription->program->bind();
+        }
+    }
+
+    Program* VulkanDevice::createProgram(Shader* vertexShader, Shader* fragmentShader) {
+        return Memory::Allocate<VulkanProgram>(vertexShader, fragmentShader);
     }
 
     uint32_t VulkanDevice::identifyGraphicsQueueFamilyIndex(vk::PhysicalDevice& device, vk::QueueFlags flags) {
@@ -380,5 +391,10 @@ namespace Vortak {
         auto glfwWindow = static_cast<GLFWwindow*>(window->getNativeWindow());
         glfwGetFramebufferSize(glfwWindow, &width, &height);
         return {static_cast<uint32_t>(width), static_cast<uint32_t>(height)};
+    }
+
+    void VulkanDevice::drawIndexed(uint32_t indexCount, uint32_t instanceCount, uint32_t firstIndex,
+                                   int32_t vertexOffset, uint32_t firstInstance) {
+        // TODO: Implement Vulkan drawIndexed
     }
 }

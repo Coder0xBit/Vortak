@@ -15,6 +15,12 @@ namespace Vortak {
 
         Shader* createShader(const std::filesystem::path& path, ShaderType shaderType) override;
 
+        Program* createProgram(Shader* vertexShader, Shader* fragmentShader) override;
+
+        void bindPipeline(Vortak::PipelineDescription* pipelineDescription) override;
+
+        void drawIndexed(uint32_t indexCount, uint32_t instanceCount, uint32_t firstIndex, int32_t vertexOffset, uint32_t firstInstance) override;
+
         ~OpenGLDevice() override;
     };
 }

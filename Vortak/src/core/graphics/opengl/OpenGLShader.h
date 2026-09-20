@@ -11,7 +11,9 @@ namespace Vortak {
 
         void compile() override;
 
+        uint32_t getShaderId() const { return mShaderID; }
+
     private :
-        uint32_t mShaderID;
+        uint32_t mShaderID = 0;
     };
 }

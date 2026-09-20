@@ -1,10 +1,9 @@
 #pragma once
-#include "core/resource/ResourceHandle.h"
 #include "core/resource/ShaderProgram.h"
-#include "core/graphics/GraphicsDevice.h"
 #include "core/graphics/ShaderType.h"
 
 namespace Vortak {
+    class GraphicsDevice;
     class Shader {
     public :
         Shader(GraphicsDevice* graphicsDevice, ShaderProgram* shaderProgram, ShaderType shaderType)

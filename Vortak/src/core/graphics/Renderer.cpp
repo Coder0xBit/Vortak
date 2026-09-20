@@ -57,13 +57,20 @@ namespace Vortak {
 
             if (!mesh) continue;
 
+            mGraphicsDevice->bindPipeline(pipeline);
+
             for (auto& subMeshes : mesh->subMeshes) {
                 auto meshKey = MeshKey(mesh->modelHandle, subMeshes.meshIndex);
-                auto meshBuffer = mBufferManager->getMesh(meshKey);
+                if (auto meshBuffer = mBufferManager->getMesh(meshKey)) {
+                    meshBuffer->vertexBuffer->bind();
+                    meshBuffer->indexBuffer->bind();
+
+                    uint32_t indexCount = meshBuffer->indexBuffer->getCount();
+                    mGraphicsDevice->drawIndexed(indexCount, 1, 0, 0, 0);
+                }
             }
         }
     }
-
     void Renderer::endFrame() {}
 
     SwapChain* Renderer::getSwapChain() const { return nullptr; }

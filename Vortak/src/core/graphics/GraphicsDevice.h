@@ -4,9 +4,12 @@
 #include "core/graphics/SwapChain.h"
 #include "core/graphics/Backend.h"
 #include "core/graphics/ShaderType.h"
+#include "core/graphics/PipelineDescription.h"
+
 
 namespace Vortak {
     class Shader;
+    class Program;
 
     class GraphicsDevice {
     public:
@@ -19,6 +22,12 @@ namespace Vortak {
         virtual SwapChain* createSwapChain(Window* window) = 0;
 
         virtual Shader* createShader(const std::filesystem::path& path, ShaderType shaderType) = 0;
+
+        virtual Program* createProgram(Shader* vertexShader, Shader* fragmentShader) = 0;
+
+        virtual void bindPipeline(Vortak::PipelineDescription* pipelineDescription) = 0;
+
+        virtual void drawIndexed(uint32_t indexCount, uint32_t instanceCount, uint32_t firstIndex, int32_t vertexOffset, uint32_t firstInstance) = 0;
 
         struct BuilderDetails {
             std::string applicationName;

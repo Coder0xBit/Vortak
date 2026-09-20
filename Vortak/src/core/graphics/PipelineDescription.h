@@ -1,6 +1,5 @@
 #pragma once
-#include "core/graphics/Shader.h"
-#include "core/resource/ShaderProgram.h"
+#include "core/graphics/Program.h"
 #include "core/graphics/VertexBufferLayout.h"
 
 namespace Vortak {
@@ -59,8 +58,7 @@ namespace Vortak {
     };
 
     struct PipelineDescription {
-        Shader* vertexShader = nullptr;
-        Shader* fragmentShader = nullptr;
+        Program* program = nullptr;
 
         VertexBufferLayout vertexLayout;
 
