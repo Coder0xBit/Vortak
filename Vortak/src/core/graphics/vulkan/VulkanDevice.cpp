@@ -4,6 +4,8 @@
 #include "core/graphics/vulkan/VulkanSwapChain.h"
 #include "core/resource/ShaderProgram.h"
 
+#include "core/graphics/MeshBuffer.h"
+
 #include <set>
 #include <GLFW/glfw3.h>
 
@@ -174,9 +176,13 @@ namespace Vortak {
     }
 
     void VulkanDevice::bindPipeline(Vortak::PipelineDescription* pipelineDescription) {
-        if (pipelineDescription->program) {
-            pipelineDescription->program->bind();
-        }
+        Vortak::Logger::Error(
+            "Yo! What? Work on Vulkan, how are we going to bind the pipeline if you haven't implemented this");
+    }
+
+    void VulkanDevice::bindMesh(const Vortak::MeshBuffer* meshBuffer) {
+        Vortak::Logger::Error(
+            "Yo! What? Work on Vulkan, how are we going to bind the MeshBuffers if you haven't implemented this");
     }
 
     Program* VulkanDevice::createProgram(Shader* vertexShader, Shader* fragmentShader) {

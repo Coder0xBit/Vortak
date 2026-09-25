@@ -6,7 +6,7 @@
 namespace Vortak {
     class RenderPass {
     public :
-        RenderPass() {}
+        RenderPass() = default;
 
         RenderPass(const RenderPass& renderPass) = delete;
 
@@ -20,8 +20,7 @@ namespace Vortak {
 
         virtual void build(
             Vortak::RenderQueue<Command>& queue,
-            Vortak::Scene* scene,
-            Vortak::GraphicsDevice* graphicsDevice
+            Vortak::Scene* scene
         ) = 0;
     };
 }

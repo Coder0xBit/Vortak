@@ -6,17 +6,27 @@
 namespace Vortak {
     class GeometryPass : public RenderPass {
     public:
-        GeometryPass() = default;
+        explicit GeometryPass(Vortak::GraphicsDevice* graphicsDevice);
+
+        GeometryPass(const GeometryPass&) = delete;
+
+        GeometryPass& operator=(const GeometryPass&) = delete;
+
+        GeometryPass(GeometryPass&&) = delete;
+
+        GeometryPass& operator=(GeometryPass&&) = delete;
+
+        ~GeometryPass() override;
 
         void build(
             Vortak::RenderQueue<Command>& queue,
-            Vortak::Scene* scene,
-            Vortak::GraphicsDevice* graphicsDevice
+            Vortak::Scene* scene
         ) override;
 
     private:
         bool mInitialized = false;
-        PipelineDescription mCachedPipeline;
+        Vortak::GraphicsDevice* graphicsDevice = nullptr;
+        PipelineDescription mPipelineDescription;
         std::vector<Vortak::Command> mCachedCommands;
         uint32_t mLastSceneVersion = 0;
     };

@@ -38,6 +38,8 @@ namespace Vortak {
 
         void bindPipeline(Vortak::PipelineDescription* pipelineDescription) override;
 
+        void bindMesh(const Vortak::MeshBuffer* meshBuffer) override;
+
         void drawIndexed(uint32_t indexCount, uint32_t instanceCount, uint32_t firstIndex, int32_t vertexOffset, uint32_t firstInstance) override;
 
         vk::Instance createInstance(const std::string& applicationName);

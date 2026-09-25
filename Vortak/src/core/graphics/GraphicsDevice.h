@@ -10,6 +10,7 @@
 namespace Vortak {
     class Shader;
     class Program;
+    class MeshBuffer;
 
     class GraphicsDevice {
     public:
@@ -27,7 +28,10 @@ namespace Vortak {
 
         virtual void bindPipeline(Vortak::PipelineDescription* pipelineDescription) = 0;
 
-        virtual void drawIndexed(uint32_t indexCount, uint32_t instanceCount, uint32_t firstIndex, int32_t vertexOffset, uint32_t firstInstance) = 0;
+        virtual void bindMesh(const Vortak::MeshBuffer* meshBuffer) = 0;
+
+        virtual void drawIndexed(uint32_t indexCount, uint32_t instanceCount, uint32_t firstIndex, int32_t vertexOffset,
+                                 uint32_t firstInstance) = 0;
 
         struct BuilderDetails {
             std::string applicationName;

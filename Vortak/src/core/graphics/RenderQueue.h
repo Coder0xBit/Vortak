@@ -6,14 +6,17 @@
 #include <condition_variable>
 
 namespace Vortak {
-    template<typename Command>
+    template <typename Command>
     class RenderQueue {
     public :
         RenderQueue() = default;
+
         RenderQueue(const RenderQueue& other) = delete;
+
         RenderQueue(RenderQueue&& other) = delete;
 
         RenderQueue& operator=(const RenderQueue& other) = delete;
+
         RenderQueue& operator=(RenderQueue&& other) = delete;
 
         void push(Command command) {

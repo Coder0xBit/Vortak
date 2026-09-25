@@ -1,9 +1,8 @@
 #pragma once
 
 #include "utils/Base.h"
+#include "core/graphics/MeshBuffer.h"
 #include "core/scene/Scene.h"
-#include "core/graphics/VertexBuffer.h"
-#include "core/graphics/IndexBuffer.h"
 #include "core/scene/MeshComponent.h"
 
 namespace Vortak {
@@ -21,11 +20,6 @@ namespace Vortak {
             Vortak::hashCombine(seed, key.meshIndex);
             return seed;
         }
-    };
-
-    struct MeshBuffer {
-        std::unique_ptr<VertexBuffer> vertexBuffer;
-        std::unique_ptr<IndexBuffer> indexBuffer;
     };
 
     class BufferManager {

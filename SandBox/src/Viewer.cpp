@@ -43,7 +43,7 @@ namespace Vortak {
 
         mRenderer = Vortak::Renderer::Builder()
                    .backend(mBackend)
-                   .platform(mGraphicsDevice.get())
+                   .device(mGraphicsDevice.get())
                    .window(mWindow.get())
                    .build();
 

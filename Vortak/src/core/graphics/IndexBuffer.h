@@ -8,9 +8,13 @@ namespace Vortak {
     class IndexBuffer {
     public :
         virtual ~IndexBuffer() = default;
+
         virtual void bind() = 0;
+
         virtual void unBind() = 0;
+
         virtual uint32_t getCount() = 0;
+
         virtual void setBuffer(const std::vector<uint32_t>& indices) = 0;
 
         struct BuilderDetails {

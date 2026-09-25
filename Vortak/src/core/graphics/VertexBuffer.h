@@ -10,13 +10,16 @@
 namespace Vortak {
     class VertexBuffer {
     public :
-        VertexBuffer(VertexBufferLayout bufferLayout) : bufferLayout(std::move(bufferLayout)) {
-        }
+        VertexBuffer(VertexBufferLayout bufferLayout) : bufferLayout(std::move(bufferLayout)) {}
 
         virtual ~VertexBuffer() = default;
+
         virtual void bind() = 0;
+
         virtual void unBind() = 0;
+
         virtual uint32_t getSize() = 0;
+
         virtual void setBuffer(const std::vector<Vortak::Vertex>& vertices) = 0;
 
         VertexBufferLayout bufferLayout;

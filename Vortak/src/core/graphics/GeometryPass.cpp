@@ -2,51 +2,55 @@
 #include "core/graphics/GraphicsDevice.h"
 #include "core/graphics/Command.h"
 #include "core/scene/Entity.h"
+#include "core/scene/TransformComponent.h"
 
 namespace Vortak {
+    GeometryPass::GeometryPass(Vortak::GraphicsDevice* graphicsDevice) : graphicsDevice(graphicsDevice) {
+        auto vertexShader = graphicsDevice->createShader("res/shader/common_vertex.glsl", ShaderType::VERTEX);
+        auto fragmentShader = graphicsDevice->createShader("res/shader/common_fragment.glsl", ShaderType::FRAGMENT);
+
+        mPipelineDescription.program = graphicsDevice->createProgram(vertexShader, fragmentShader);
+
+        mPipelineDescription.vertexLayout = Vertex::getVertexBufferLayout();
+
+        mPipelineDescription.blendState = {
+            .enabled = false
+        };
+
+        mPipelineDescription.depthStencilState = {
+            .depthTest = true,
+            .depthWrite = true,
+            .depthCompare = CompareOperation::Less,
+        };
+
+        mPipelineDescription.rasterizerState = {
+            .cullMode = CullMode::Back,
+            .frontFace = FrontFace::CounterClockwise,
+            .polygonMode = PolygonMode::Fill
+        };
+    }
+
+    GeometryPass::~GeometryPass() {}
+
     void GeometryPass::build(
         Vortak::RenderQueue<Command>& queue,
-        Vortak::Scene* scene,
-        Vortak::GraphicsDevice* graphicsDevice
+        Vortak::Scene* scene
     ) {
-        if (!mInitialized) {
-            auto vertexShader = graphicsDevice->createShader("res/shader/common_vertex.glsl", ShaderType::VERTEX);
-            auto fragmentShader = graphicsDevice->createShader("res/shader/common_fragment.glsl", ShaderType::FRAGMENT);
-            
-            mCachedPipeline.program = graphicsDevice->createProgram(vertexShader, fragmentShader);
-
-            mCachedPipeline.vertexLayout = Vertex::getVertexBufferLayout();
-
-            mCachedPipeline.blendState = {
-                .enabled = false
-            };
-
-            mCachedPipeline.depthStencilState = {
-                .depthTest = true,
-                .depthWrite = true,
-                .depthCompare = CompareOperation::Less,
-            };
-
-            mCachedPipeline.rasterizerState = {
-                .cullMode = CullMode::Back,
-                .frontFace = FrontFace::CounterClockwise,
-                .polygonMode = PolygonMode::Fill
-            };
-
-            mInitialized = true;
-        }
-
         if (scene->getVersion() != mLastSceneVersion) {
             mCachedCommands.clear();
-            auto view = scene->getAllEntityWith<Vortak::MeshComponent>();
+            auto view = scene->getAllEntityWith<Vortak::MeshComponent, Vortak::TransformComponent>();
 
-            for (auto& handle : view) {
+            for (auto& e : view) {
                 Vortak::Command command;
-                Entity e = Entity(handle, scene);
-                auto mesh = e.tryGetComponent<Vortak::MeshComponent>();
+                Entity entity = Entity(e, scene);
+                auto mesh = entity.tryGetComponent<Vortak::MeshComponent>();
+                auto transform = entity.tryGetComponent<Vortak::TransformComponent>();
 
                 command.bindMesh(mesh);
-                command.bindPipeline(&mCachedPipeline);
+                command.bindPipeline(&mPipelineDescription);
+                if (transform) {
+                    command.setTransform(transform->mat4());
+                }
 
                 mCachedCommands.push_back(command);
             }

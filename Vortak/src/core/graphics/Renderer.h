@@ -16,12 +16,13 @@ namespace Vortak {
     public:
         struct BuilderDetails {
             Backend backend = Vulkan;
-            GraphicsDevice* platform = nullptr;
+            GraphicsDevice* device = nullptr;
             Window* window = nullptr;
         };
 
         class Builder : public utils::PrivateImplementation<BuilderDetails> {
             friend class Renderer;
+            friend class VulkanRenderer;
 
         public:
             Builder() noexcept;
@@ -38,7 +39,7 @@ namespace Vortak {
 
             Builder& backend(Backend backend) noexcept;
 
-            Builder& platform(GraphicsDevice* platform) noexcept;
+            Builder& device(GraphicsDevice* platform) noexcept;
 
             Builder& window(Window* window) noexcept;
 
@@ -70,7 +71,7 @@ namespace Vortak {
     private:
         friend class Builder;
 
-    private :
+    protected :
         Vortak::RenderQueue<Command> mRenderQueue;
         std::unique_ptr<GeometryPass> mGeometryPass; // Store geometry pass internally
         GraphicsDevice* mGraphicsDevice = nullptr;

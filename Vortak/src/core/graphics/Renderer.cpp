@@ -1,7 +1,5 @@
 #include "core/graphics/Renderer.h"
-
-#include "core/Camera.h"
-#include "core/scene/Entity.h"
+#include "core/graphics/vulkan/VulkanRenderer.h"
 
 namespace Vortak {
     Renderer::Builder::Builder() noexcept = default;
@@ -21,8 +19,8 @@ namespace Vortak {
         return *this;
     }
 
-    Renderer::Builder& Renderer::Builder::platform(GraphicsDevice* platform) noexcept {
-        mImpl->platform = platform;
+    Renderer::Builder& Renderer::Builder::device(GraphicsDevice* device) noexcept {
+        mImpl->device = device;
         return *this;
     }
 
@@ -36,19 +34,19 @@ namespace Vortak {
     }
 
     Renderer::Renderer(const Builder& builder) noexcept {
-        mGraphicsDevice = builder.mImpl->platform;
+        mGraphicsDevice = builder.mImpl->device;
         mWindow = builder.mImpl->window;
         mBackend = builder.mImpl->backend;
 
         mBufferManager = std::make_unique<BufferManager>(mGraphicsDevice, mBackend);
-        mGeometryPass = std::make_unique<GeometryPass>();
+        mGeometryPass = std::make_unique<GeometryPass>(mGraphicsDevice);
     }
 
     bool Renderer::beginFrame() { return true; }
 
 
     void Renderer::render(Vortak::Camera* camera, Vortak::Scene* scene) {
-        mGeometryPass->build(mRenderQueue, scene, mGraphicsDevice);
+        mGeometryPass->build(mRenderQueue, scene);
 
         Command cmd;
         while (mRenderQueue.tryPop(cmd)) {
@@ -62,8 +60,7 @@ namespace Vortak {
             for (auto& subMeshes : mesh->subMeshes) {
                 auto meshKey = MeshKey(mesh->modelHandle, subMeshes.meshIndex);
                 if (auto meshBuffer = mBufferManager->getMesh(meshKey)) {
-                    meshBuffer->vertexBuffer->bind();
-                    meshBuffer->indexBuffer->bind();
+                    mGraphicsDevice->bindMesh(meshBuffer);
 
                     uint32_t indexCount = meshBuffer->indexBuffer->getCount();
                     mGraphicsDevice->drawIndexed(indexCount, 1, 0, 0, 0);

@@ -11,6 +11,9 @@ namespace Vortak {
 
         virtual ~Program();
 
+        Shader* getVertexShader() const { return vertexShader; }
+        Shader* getFragmentShader() const { return fragmentShader; }
+
     protected:
         Shader* vertexShader = nullptr;
         Shader* fragmentShader = nullptr;
